@@ -22,5 +22,8 @@ if test -e $JAR; then
 else
    wget https://github.com/CommonWealthRobotics/BowlerStudio/releases/latest/download/BowlerStudio.jar 
 fi
-
+if [ "$#" -lt 2 ]; then
+  echo "Need file and port specified to run server"
+  exit 0
+fi
 xvfb-run -s '-screen 0 1024x768x24' $JAVA_HOME/bin/java -Djava.awt.headless=true -Dprism.order=sw -Dprism.allowhidpi=false -Dprism.verbose=true -XX:MaxRAMPercentage=90.0 --add-exports javafx.graphics/com.sun.javafx.css=ALL-UNNAMED --add-exports javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED --add-exports javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED --add-exports javafx.controls/com.sun.javafx.scene.control.skin.resources=ALL-UNNAMED --add-exports javafx.graphics/com.sun.javafx.util=ALL-UNNAMED --add-exports javafx.graphics/com.sun.javafx.scene.input=ALL-UNNAMED --add-opens javafx.graphics/javafx.scene=ALL-UNNAMED  -jar BowlerStudio.jar -csgserver $@

@@ -15,17 +15,9 @@ RUN apt-get update && apt-get install -y \
 # Create Java directory
 RUN mkdir -p $JAVA_HOME
 
-# Download and install Java
-RUN wget https://cdn.azul.com/zulu/bin/${JVM}.tar.gz && \
-    tar -xvzf ${JVM}.tar.gz -C $JAVA_HOME && \
-    mv $JAVA_HOME/$JVM/* $JAVA_HOME/ && \
-    rm -rf $JAVA_HOME/$JVM && \
-    rm ${JVM}.tar.gz
-
 # Download BowlerStudio JAR
 RUN mkdir /app/
 
-RUN curl -L -o /app/BowlerStudio.jar https://github.com/CommonWealthRobotics/BowlerStudio/releases/latest/download/BowlerStudio.jar
 
 # Set working directory
 WORKDIR /app
@@ -51,6 +43,8 @@ RUN apt-get update && apt-get install -y \
     ca-certificates-java \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+#Install the deps into the image
+RUN bash launch.sh
     
 COPY launch.sh /app/
 
