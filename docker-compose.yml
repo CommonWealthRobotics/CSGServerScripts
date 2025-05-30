@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  bowler-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: CSG-server
+    ports:
+      - "3742:3742"
+    volumes:
+      # Map your local File.txt to the container
+      - ~/File.txt:/app/data/File.txt:ro
+    environment:
+      - DISPLAY=${DISPLAY}
+    # network_mode: host
+    restart: unless-stopped

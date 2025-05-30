@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# CSG Server Docker Runner Script
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd "$SCRIPT_DIR"
+
+echo "Starting CSG Server..."
+echo "Script directory: $SCRIPT_DIR"
+
+# Check if user is in docker group
+if ! groups $USER | grep -q '\bdocker\b'; then
+    echo "Adding user $USER to docker group..."
+    sudo usermod -aG docker $USER
+    echo "User added to docker group. You may need to log out and back in for changes to take effect."
+    echo "Alternatively, you can run: newgrp docker"
+    echo "Continuing with current session..."
+fi
+
+# Check if docker service is running
+if ! systemctl is-active --quiet docker; then
+    echo "Starting Docker service..."
+    sudo systemctl start docker
+fi
+
+
+# Check if docker-compose.yml exists
+if [ ! -f "docker-compose.yml" ]; then
+    echo "Error: docker-compose.yml not found in current directory"
+    exit 1
+fi
+
+# Check if Dockerfile exists
+if [ ! -f "Dockerfile" ]; then
+    echo "Error: Dockerfile not found in current directory"
+    exit 1
+fi
+
+# Stop any existing container
+echo "Stopping any existing CSG-server container..."
+docker-compose down || true
+
+# Build and run the container
+echo "Building and starting CSG Server container..."
+docker-compose up --build
+
+echo "CSG Server has stopped."
