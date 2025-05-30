@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  bowler-studio:
+  csg-server:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: CSG-server
+    container_name: csg-server-app
     volumes:
       # Map your local File.txt to the container
       - "/opt/File.txt:/app/data/File.txt:ro"
