@@ -6,12 +6,18 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: CSG-server
-    ports:
-      - "3742:3742"
     volumes:
       # Map your local File.txt to the container
-      - ~/File.txt:/app/data/File.txt:ro
+      - ${HOME}/File.txt:/app/data/File.txt:ro
+      # X11 forwarding volumes
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw
     environment:
       - DISPLAY=${DISPLAY}
-    # network_mode: host
+      - QT_X11_NO_MITSHM=1
+    network_mode: host
     restart: unless-stopped
+    stdin_open: true
+    tty: true
+    # Allow access to X11
+    privileged: true

@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 # Set environment variables
 ENV ARCH=x86_64
 ENV JVM=zulu17.50.19-ca-fx-jdk17.0.11-linux_x64
-ENV JAVA_HOME=/opt/java17/
+ENV JAVA_HOME=/root/bin/java17/
 
 # Install required packages
 RUN apt-get update && apt-get install -y \
@@ -52,19 +52,6 @@ RUN apt-get update && apt-get install -y \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
     
-# Set environment for headless operation
-ENV DISPLAY=:0
-# Set environment for JavaFX in headless mode
-ENV JAVA_OPTS="-Dprism.order=sw \
-    -Djava.awt.headless=false \
-    -XX:MaxRAMPercentage=90.0 \
-    --add-exports javafx.graphics/com.sun.javafx.css=ALL-UNNAMED \
-    --add-exports javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED \
-    --add-exports javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED \
-    --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED \
-    --add-exports javafx.controls/com.sun.javafx.scene.control.skin.resources=ALL-UNNAMED \
-    --add-exports javafx.graphics/com.sun.javafx.util=ALL-UNNAMED \
-    --add-exports javafx.graphics/com.sun.javafx.scene.input=ALL-UNNAMED \
-    --add-opens javafx.graphics/javafx.scene=ALL-UNNAMED"
-# Run with virtual display
-CMD ["xvfb-run", "-a", "-s", "-screen 0 1024x768x24", "$JAVA_HOME/bin/java $JAVA_OPTS -jar BowlerStudio.jar -csgserver /app/data/File.txt 3742"]
+COPY launch.sh /app/
+
+#CMD bash launch.sh /app/data/File.txt 3742

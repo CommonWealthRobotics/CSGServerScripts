@@ -24,7 +24,6 @@ if ! systemctl is-active --quiet docker; then
     sudo systemctl start docker
 fi
 
-
 # Check if docker-compose.yml exists
 if [ ! -f "docker-compose.yml" ]; then
     echo "Error: docker-compose.yml not found in current directory"
@@ -37,12 +36,16 @@ if [ ! -f "Dockerfile" ]; then
     exit 1
 fi
 
-# Stop any existing container
-echo "Stopping any existing CSG-server container..."
-docker-compose down || true
+# Stop and remove any existing containers and images
+echo "Cleaning up existing containers and images..."
+docker-compose down --remove-orphans || true
+docker container prune -f || true
 
-# Build and run the container
-echo "Building and starting CSG Server container..."
-docker-compose up --build
+# Remove the specific image if it exists
+docker rmi csgserverscripts_bowler-studio:latest || true
+
+# Build and run the container with no cache
+echo "Building and starting CSG Server container (clean build)..."
+docker-compose up --build --force-recreate
 
 echo "CSG Server has stopped."
