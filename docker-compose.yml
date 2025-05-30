@@ -8,7 +8,7 @@ services:
     container_name: CSG-server
     volumes:
       # Map your local File.txt to the container
-      - "/home/hephaestus/File.txt:/app/data/File.txt:ro"
+      - "/opt/File.txt:/app/data/File.txt:ro"
       # X11 forwarding volumes
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${HOME}/.Xauthority:/root/.Xauthority:rw
