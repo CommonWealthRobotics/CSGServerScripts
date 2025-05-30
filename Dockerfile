@@ -46,23 +46,18 @@ RUN apt-get update && apt-get install -y \
     libcairo-gobject2 \
     libgtk-3-0 \
     libgdk-pixbuf2.0-0 \
-    xvfb \
+    xvfb  \
+    ca-certificates \
+    ca-certificates-java \
+    && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+    
 # Set environment for headless operation
-ENV DISPLAY=:99
+ENV DISPLAY=:0
 # Set environment for JavaFX in headless mode
 ENV JAVA_OPTS="-Dprism.order=sw \
     -Djava.awt.headless=false \
     -XX:MaxRAMPercentage=90.0 \
-    -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2,TLSv1.3 \
-    -Djdk.tls.client.protocols=TLSv1,TLSv1.1,TLSv1.2,TLSv1.3 \
-    -Dcom.sun.net.ssl.checkRevocation=false \
-    -Dtrust_all_cert=true \
-    -Djsse.enableSNIExtension=false \
-    -Djdk.tls.useExtendedMasterSecret=false \
-    -Djavax.net.ssl.trustStoreType=JKS \
-    -Dsun.security.ssl.allowUnsafeRenegotiation=true \
-    -Dsun.security.ssl.allowLegacyHelloMessages=true \
     --add-exports javafx.graphics/com.sun.javafx.css=ALL-UNNAMED \
     --add-exports javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED \
     --add-exports javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED \
@@ -71,10 +66,5 @@ ENV JAVA_OPTS="-Dprism.order=sw \
     --add-exports javafx.graphics/com.sun.javafx.util=ALL-UNNAMED \
     --add-exports javafx.graphics/com.sun.javafx.scene.input=ALL-UNNAMED \
     --add-opens javafx.graphics/javafx.scene=ALL-UNNAMED"
-    
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    ca-certificates-java \
-    && update-ca-certificates
 # Run with virtual display
-CMD ["xvfb-run", "-a", "-s", "-screen 0 1024x768x24", "bash", "-c", "$JAVA_HOME/bin/java $JAVA_OPTS -jar BowlerStudio.jar -csgserver /app/data/File.txt 3742"]
+CMD ["xvfb-run", "-a", "-s", "-screen 0 1024x768x24", "$JAVA_HOME/bin/java $JAVA_OPTS -jar BowlerStudio.jar -csgserver /app/data/File.txt 3742"]
