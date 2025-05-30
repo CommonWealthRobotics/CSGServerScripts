@@ -43,9 +43,11 @@ RUN apt-get update && apt-get install -y \
     ca-certificates-java \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
-#Install the deps into the image
-RUN bash launch.sh
-    
+
 COPY launch.sh /app/
 
-CMD bash launch.sh /app/data/File.txt 3742
+#Install the deps into the image
+
+RUN bash /app/launch.sh
+    
+CMD bash /app/launch.sh /app/data/File.txt 3742
