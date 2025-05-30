@@ -38,14 +38,10 @@ fi
 
 # Stop and remove any existing containers and images
 echo "Cleaning up existing containers and images..."
-docker-compose down --remove-orphans || true
-docker container prune -f || true
-
-# Remove the specific image if it exists
-docker rmi csgserverscripts_bowler-studio:latest || true
+docker-compose down 
 
 # Build and run the container with no cache
 echo "Building and starting CSG Server container (clean build)..."
-docker-compose up --build --force-recreate
+docker-compose up --build 
 
 echo "CSG Server has stopped."
