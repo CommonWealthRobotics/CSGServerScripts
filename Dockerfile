@@ -54,4 +54,4 @@ RUN apt-get update && apt-get install -y \
     
 COPY launch.sh /app/
 
-#CMD bash launch.sh /app/data/File.txt 3742
+CMD bash launch.sh /app/data/File.txt 3742
