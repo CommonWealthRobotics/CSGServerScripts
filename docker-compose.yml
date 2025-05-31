@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   csg-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: madhephaestus/csg-server-app:latest
     container_name: csg-server-app
     volumes:
       # Map your local File.txt to the container
