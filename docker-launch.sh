@@ -42,6 +42,6 @@ docker-compose down
 
 # Build and run the container with no cache
 echo "Building and starting CSG Server container (clean build)..."
-docker-compose up --build 
+docker-compose up 
 
 echo "CSG Server has stopped."
