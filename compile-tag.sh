@@ -11,10 +11,8 @@ if ! docker info 2>/dev/null | grep -q "Username:"; then
     exit 1
 fi
 docker builder prune -a
-
-docker build -t madhephaestus/csg-server-app:$1 .
-docker push madhephaestus/csg-server-app:$1
-
-
-docker build -t madhephaestus/csg-server-app:latest .
+docker build -t my-local-app .
+docker tag my-local-app madhephaestus/csg-server-app:$1
+docker tag my-local-app madhephaestus/csg-server-app:latest
 docker push madhephaestus/csg-server-app:latest
+docker push madhephaestus/csg-server-app:$1
