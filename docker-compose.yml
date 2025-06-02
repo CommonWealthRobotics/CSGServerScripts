@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   csg-server:
-    image: madhephaestus/csg-server-app:0.0.3
+    image: madhephaestus/csg-server-app:0.0.4
     container_name: csg-server-app
     volumes:
       # Map your local File.txt to the container
