@@ -22,7 +22,7 @@ RUN mkdir /app/
 # Set working directory
 WORKDIR /app
 
-# Create volume mount point for the File.txt
+# Create volume mount point for the CSG_API.txt
 VOLUME ["/app/data"]
 
 RUN apt-get update && apt-get install -y \
@@ -50,4 +50,4 @@ COPY launch.sh /app/
 
 RUN bash /app/launch.sh
     
-CMD bash /app/launch.sh /app/data/File.txt 3742
+CMD bash /app/launch.sh /app/data/CSG_API.txt 3742
