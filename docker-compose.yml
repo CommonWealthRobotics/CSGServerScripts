@@ -5,8 +5,8 @@ services:
     image: madhephaestus/csg-server-app:0.0.4
     container_name: csg-server-app
     volumes:
-      # Map your local File.txt to the container
-      - "/opt/File.txt:/app/data/File.txt:ro"
+      # Map your local CSG_API.txt to the container
+      - "/opt/CSG_API.txt:/app/data/CSG_API.txt:ro"
       # X11 forwarding volumes
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${HOME}/.Xauthority:/root/.Xauthority:rw
