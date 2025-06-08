@@ -7,15 +7,12 @@ services:
     volumes:
       # Map your local File.txt to the container
       - "/opt/File.txt:/app/data/File.txt:ro"
-      # X11 forwarding volumes
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ${HOME}/.Xauthority:/root/.Xauthority:rw
     environment:
-      - DISPLAY=${DISPLAY}
+      # Set virtual display for headless operation
+      - DISPLAY=:99
       - QT_X11_NO_MITSHM=1
+      - XVFB_WHD=1920x1080x24
     network_mode: host
     restart: unless-stopped
     stdin_open: true
     tty: true
-    # Allow access to X11
-    privileged: true
